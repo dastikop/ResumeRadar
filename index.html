@@ -865,30 +865,30 @@ Rules:
 
       clearInterval(msgTimer);
 
-      // Send as GET request to avoid Blogger CSP blocking POST
+      // Direct API call — works on GitHub Pages (no CSP restrictions)
       let report;
       try {
-        const payload = encodeURIComponent(JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          messages: [{ role: 'user', content: prompt }]
-        }));
-
-        const realRes = await fetch('https://script.google.com/macros/s/AKfycbxK9lzEGhBvTO4yY7wUIEKRHvBZJxJId_2EuTJoTL6k-qJ47FlzH6DO88PoYYmliqAhng/exec?payload=' + payload, {
-          method: 'GET',
-          redirect: 'follow'
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1000,
+            messages: [{ role: 'user', content: prompt }]
+          })
         });
 
-        const text = await realRes.text();
-        const cleaned = text.replace(/```json|```/g, '').trim();
+        const data = await res.json();
+        const raw = (data.content || []).map(b => b.text || '').join('');
+        const cleaned = raw.replace(/```json|```/g, '').trim();
         try { report = JSON.parse(cleaned); }
         catch {
           const m = cleaned.match(/\{[\s\S]+\}/);
           if (!m) throw new Error('No JSON found');
           report = JSON.parse(m[0]);
         }
-      } catch(proxyErr) {
-        throw new Error('Proxy error: ' + proxyErr.message);
+      } catch(fetchErr) {
+        throw new Error('API error: ' + fetchErr.message);
       }
 
       document.getElementById('loading-view').style.display = 'none';
