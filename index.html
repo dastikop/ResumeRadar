@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Career Diagnostic — Find Your Path in AI | T&P Tool</title>
+  <meta name="description" content="Upload your resume and get an instant AI eligibility report for entry-level AI roles in India. Free tool for engineering students.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:   #1c3a2f;
+      --forest2:  #2d6a4f;
+      --forest3:  #52b788;
+      --forest4:  #b7e4c7;
+      --forest5:  #e8f5ee;
+      --cream:    #faf8f3;
+      --cream2:   #f2ede3;
+      --cream3:   #e8e0d0;
+      --ink:      #1a1a14;
+      --ink2:     #3d3d30;
+      --ink3:     #7a7a6a;
+      --gold:     #c9933a;
+      --gold2:    #f0d9a8;
+      --gold3:    #fdf6e3;
+      --rust:     #c0533a;
+      --rust2:    #fae8e3;
+      --radius:   16px;
+      --serif:    'Playfair Display', Georgia, serif;
+      --body:     'Lora', Georgia, serif;
+      --mono:     'DM Mono', 'Courier New', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--body);
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--forest);
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-logo {
+      font-family: var(--serif); font-size: 1.05rem; font-weight: 600;
+      color: var(--forest4); letter-spacing: 0.01em;
+    }
+    .nav-logo span { color: rgba(255,255,255,0.4); font-weight: 400; font-size: 0.85rem; margin-left: 10px; font-family: var(--mono); }
+    .nav-cta {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--forest4);
+      text-decoration: none; padding: 7px 16px;
+      border: 1px solid rgba(183,228,199,0.3); border-radius: 30px;
+      transition: all 0.2s;
+    }
+    .nav-cta:hover { background: rgba(183,228,199,0.1); border-color: var(--forest4); }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--forest);
+      padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 8vw, 5rem);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -60px; right: -80px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(82,183,136,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -40px; left: 20%;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,147,58,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 780px; margin: 0 auto; position: relative; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--forest3);
+      background: rgba(82,183,136,0.12); border: 1px solid rgba(82,183,136,0.2);
+      padding: 5px 14px; border-radius: 30px; margin-bottom: 1.75rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--forest3); animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.7)} }
+    .hero h1 {
+      font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 700; color: #fff; line-height: 1.12;
+      margin-bottom: 1.25rem; letter-spacing: -0.01em;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero h1 em { color: var(--forest3); font-style: italic; }
+    .hero-desc {
+      font-size: clamp(1rem, 2.5vw, 1.15rem); color: rgba(255,255,255,0.6);
+      line-height: 1.75; max-width: 560px; margin-bottom: 2.25rem;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-pills {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .hero-pill {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+      padding: 5px 13px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.5);
+    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+
+    /* ─── FEATURE STRIP ─── */
+    .features {
+      background: var(--cream2);
+      border-top: 1px solid var(--cream3); border-bottom: 1px solid var(--cream3);
+      padding: 3rem clamp(1.5rem, 5vw, 4rem);
+    }
+    .features-grid {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;
+    }
+    .feat { display: flex; flex-direction: column; gap: 10px; }
+    .feat-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--forest5); border: 1px solid var(--forest4);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .feat-icon svg { width: 18px; height: 18px; stroke: var(--forest2); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .feat h3 { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); }
+    .feat p  { font-size: 0.88rem; color: var(--ink3); line-height: 1.65; }
+
+    /* ─── SECTION WRAPPERS ─── */
+    .section { padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 4rem); }
+    .section-inner { max-width: 800px; margin: 0 auto; }
+    .section-label {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--forest2);
+      margin-bottom: 1rem; display: block;
+    }
+    .section-title {
+      font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700; color: var(--ink); line-height: 1.2; margin-bottom: 1rem;
+    }
+    .section-body { font-size: 1rem; color: var(--ink2); line-height: 1.8; margin-bottom: 2rem; }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-bg { background: var(--forest); }
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex; gap: 1.5rem; padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0; width: 40px; height: 40px;
+      border-radius: 50%; border: 1px solid rgba(82,183,136,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-size: 13px; color: var(--forest3);
+    }
+    .step-content h4 { font-family: var(--serif); font-size: 1.05rem; color: #fff; margin-bottom: 4px; }
+    .step-content p  { font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+    .how-bg .section-label { color: var(--forest3); }
+    .how-bg .section-title { color: #fff; }
+
+    /* ─── ROLES PREVIEW ─── */
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px; margin-top: 1.5rem;
+    }
+    .role-preview {
+      background: #fff; border: 1px solid var(--cream3);
+      border-radius: var(--radius); padding: 1.1rem 1.25rem;
+      transition: all 0.2s; cursor: default;
+      border-left: 3px solid transparent;
+    }
+    .role-preview:hover { border-left-color: var(--forest2); transform: translateX(3px); }
+    .role-preview .rp-branch {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--forest2);
+      margin-bottom: 6px;
+    }
+    .role-preview h4 { font-family: var(--serif); font-size: 1rem; color: var(--ink); margin-bottom: 4px; }
+    .role-preview p  { font-size: 0.82rem; color: var(--ink3); line-height: 1.5; }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0 clamp(1.5rem, 5vw, 4rem); margin: 0;
+    }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--cream3); }
+    .divider span { font-family: var(--mono); font-size: 11px; color: var(--ink3); letter-spacing: 0.1em; white-space: nowrap; }
+
+    /* ─── TOOL SECTION ─── */
+    .tool-section { background: var(--cream); padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 4rem); }
+    .tool-wrap {
+      max-width: 760px; margin: 0 auto;
+      background: #fff;
+      border: 1px solid var(--cream3);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 2px 40px rgba(28,58,47,0.07);
+    }
+    .tool-header {
+      background: var(--forest);
+      padding: 1.5rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .tool-header-left h2 { font-family: var(--serif); font-size: 1.3rem; color: #fff; }
+    .tool-header-left p  { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 2px; font-family: var(--mono); }
+    .tool-live-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 10px; color: var(--forest3);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .tool-live-badge::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--forest3); animation: pulse 2s ease infinite;
+    }
+    .tool-body { padding: 2rem; }
+
+    /* ─── INPUT COMPONENTS ─── */
+    .field-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink3);
+      margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+    }
+    .field-label::after { content: ''; flex: 1; height: 1px; background: var(--cream3); }
+    .upload-zone {
+      border: 1.5px dashed var(--forest3);
+      border-radius: var(--radius); padding: 2rem 1.5rem;
+      text-align: center; background: var(--forest5);
+      cursor: pointer; transition: all 0.2s;
+      position: relative; margin-bottom: 1rem;
+    }
+    .upload-zone:hover, .upload-zone.drag { border-style: solid; background: #daf0e5; }
+    .upload-zone.loaded { border-style: solid; border-color: var(--forest2); background: #daf0e5; }
+    .upload-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .upload-icon {
+      width: 44px; height: 44px; margin: 0 auto 12px;
+      background: #fff; border: 1px solid var(--forest4);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    }
+    .upload-icon svg { width: 20px; height: 20px; stroke: var(--forest2); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .upload-zone h3 { font-family: var(--serif); font-size: 1rem; color: var(--ink); margin-bottom: 3px; }
+    .upload-zone p  { font-size: 12px; color: var(--ink3); }
+
+    .or-divider {
+      text-align: center; font-family: var(--mono); font-size: 11px;
+      color: var(--ink3); letter-spacing: 0.1em; margin: 12px 0;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: var(--cream3); }
+
+    .paste-area {
+      width: 100%; min-height: 140px;
+      border: 1px solid var(--cream3); border-radius: var(--radius);
+      padding: 14px 16px;
+      font-family: var(--body); font-size: 13.5px; color: var(--ink);
+      background: var(--cream); resize: vertical; outline: none;
+      transition: border-color 0.2s; line-height: 1.65; margin-bottom: 1.25rem;
+    }
+    .paste-area:focus { border-color: var(--forest3); background: #fff; }
+    .paste-area::placeholder { color: var(--ink3); font-style: italic; }
+
+    .branch-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .branch-btn {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+      padding: 7px 16px; border-radius: 20px;
+      border: 1px solid var(--cream3); background: var(--cream);
+      color: var(--ink2); cursor: pointer; transition: all 0.15s;
+    }
+    .branch-btn:hover { border-color: var(--forest3); color: var(--forest2); background: var(--forest5); }
+    .branch-btn.active { background: var(--forest2); color: #fff; border-color: var(--forest2); }
+
+    .analyse-btn {
+      width: 100%; padding: 15px; border-radius: var(--radius);
+      border: none; background: var(--forest);
+      color: #fff; font-family: var(--serif);
+      font-size: 1.05rem; font-style: italic;
+      cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em;
+      position: relative; overflow: hidden;
+    }
+    .analyse-btn::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+      transform: translateX(-100%); transition: transform 0.5s;
+    }
+    .analyse-btn:hover { background: var(--forest2); }
+    .analyse-btn:hover::after { transform: translateX(100%); }
+    .analyse-btn:disabled { background: #a0c4b0; cursor: not-allowed; }
+
+    /* ─── LOADING ─── */
+    .loading { text-align: center; padding: 3.5rem 1rem; }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 2.5px solid var(--forest4);
+      border-top-color: var(--forest2);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1.25rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-msg { font-family: var(--mono); font-size: 13px; color: var(--ink3); }
+    .loading-sub { font-size: 12px; color: var(--ink3); margin-top: 5px; opacity: 0.7; font-family: var(--mono); }
+
+    /* ─── REPORT ─── */
+    .report { animation: fadeUp 0.5s ease both; }
+
+    .report-banner {
+      background: var(--forest); color: #fff;
+      padding: 1.75rem 2rem; margin: -2rem -2rem 1.75rem;
+    }
+    .rb-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 1.1rem; }
+    .student-name { font-family: var(--serif); font-size: 1.7rem; line-height: 1.15; }
+    .student-meta { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+    .print-btn {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.18); background: transparent;
+      color: rgba(255,255,255,0.6); cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    }
+    .print-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .score-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+    .score-chip {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 10px 18px; min-width: 120px;
+    }
+    .chip-val  { font-family: var(--serif); font-size: 1.5rem; }
+    .chip-unit { font-size: 0.9rem; opacity: 0.5; }
+    .chip-lbl  { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 3px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .progress-track { height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 14px; overflow: hidden; }
+    .progress-fill  { height: 100%; border-radius: 3px; background: var(--forest3); transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+
+    .rpt-section { margin-bottom: 1.75rem; }
+    .rpt-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink3);
+      padding-bottom: 8px; border-bottom: 1px solid var(--cream3);
+      margin-bottom: 12px;
+    }
+    .summary-box {
+      font-size: 0.95rem; color: var(--ink2); line-height: 1.8;
+      background: var(--forest5); border: 1px solid var(--forest4);
+      border-left: 3px solid var(--forest2);
+      border-radius: var(--radius); padding: 1.1rem 1.4rem;
+    }
+    .strength-list { display: flex; flex-direction: column; gap: 8px; }
+    .strength-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.9rem; color: var(--ink2);
+      background: var(--cream); border: 1px solid var(--cream3);
+      border-radius: 10px; padding: 10px 14px; line-height: 1.55;
+    }
+    .strength-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--forest3); flex-shrink: 0; margin-top: 4px; }
+
+    .role-card {
+      background: var(--cream); border: 1px solid var(--cream3);
+      border-radius: var(--radius); padding: 1.1rem 1.25rem;
+      margin-bottom: 10px; display: flex; gap: 14px; align-items: flex-start;
+    }
+    .role-card:last-child { margin-bottom: 0; }
+    .role-badge {
+      flex-shrink: 0; width: 52px; height: 52px; border-radius: 10px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 1px;
+    }
+    .badge-pct   { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; }
+    .badge-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.05em; opacity: 0.8; }
+    .badge-high  { background: #e8f5e9; color: #2d6a4f; }
+    .badge-med   { background: #fff3cd; color: #856404; }
+    .badge-low   { background: #fce4ec; color: #c62828; }
+    .role-info { flex: 1; min-width: 0; }
+    .role-title   { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+    .role-company { font-family: var(--mono); font-size: 11px; color: var(--ink3); margin-bottom: 6px; }
+    .role-why     { font-size: 0.875rem; color: var(--ink2); line-height: 1.55; margin-bottom: 8px; }
+    .role-tags    { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag      { font-family: var(--mono); font-size: 10px; padding: 3px 9px; border-radius: 5px; border: 1px solid var(--cream3); background: #fff; color: var(--ink2); }
+    .tag-ok   { background: #e8f5e9; color: #2d6a4f; border-color: #c8e6c9; }
+    .tag-gap  { background: #fce4ec; color: #c62828; border-color: #f8bbd0; }
+
+    .gap-card {
+      background: var(--rust2); border: 1px solid rgba(192,83,58,0.15);
+      border-left: 3px solid var(--rust); border-radius: var(--radius);
+      padding: 1.1rem 1.4rem; margin-bottom: 10px;
+    }
+    .gap-card:last-child { margin-bottom: 0; }
+    .gap-title { font-family: var(--serif); font-size: 0.95rem; font-weight: 600; color: var(--rust); margin-bottom: 5px; }
+    .gap-desc  { font-size: 0.875rem; color: var(--ink2); line-height: 1.65; }
+
+    .remedy-card {
+      background: var(--gold3); border: 1px solid rgba(201,147,58,0.2);
+      border-left: 3px solid var(--gold); border-radius: var(--radius);
+      padding: 1.1rem 1.4rem; margin-bottom: 10px;
+    }
+    .remedy-card:last-child { margin-bottom: 0; }
+    .remedy-pill {
+      font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+      background: var(--gold); color: #fff; padding: 2px 8px; border-radius: 4px;
+      display: inline-block; margin-bottom: 6px;
+    }
+    .remedy-title { font-family: var(--serif); font-size: 0.95rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    .remedy-desc  { font-size: 0.875rem; color: var(--ink2); line-height: 1.65; }
+
+    .action-row { display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap; }
+    .action-btn {
+      flex: 1; min-width: 130px; padding: 11px;
+      border-radius: var(--radius); font-family: var(--mono); font-size: 12px;
+      letter-spacing: 0.06em; cursor: pointer; transition: all 0.15s;
+    }
+    .btn-ghost { background: #fff; border: 1px solid var(--cream3); color: var(--ink2); }
+    .btn-ghost:hover { border-color: var(--forest3); color: var(--forest2); }
+    .btn-accent { background: var(--forest); border: 1px solid var(--forest); color: #fff; }
+    .btn-accent:hover { background: var(--forest2); }
+
+    .report-disclaimer {
+      font-family: var(--mono); font-size: 11px; color: var(--ink3);
+      text-align: center; margin-top: 1.5rem; line-height: 1.7;
+    }
+
+    .error-box {
+      background: var(--rust2); border: 1px solid rgba(192,83,58,0.2);
+      border-radius: 10px; padding: 10px 14px;
+      color: var(--rust); font-size: 13px; margin-bottom: 1rem; display: none;
+    }
+
+    /* ─── TESTIMONIAL / CALLOUT ─── */
+    .callout-section { background: var(--forest5); border-top: 1px solid var(--forest4); border-bottom: 1px solid var(--forest4); padding: 3rem clamp(1.5rem, 5vw, 4rem); }
+    .callout-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+    .callout-inner blockquote {
+      font-family: var(--serif); font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      font-style: italic; color: var(--forest); line-height: 1.65; margin-bottom: 1rem;
+    }
+    .callout-inner cite { font-family: var(--mono); font-size: 11px; color: var(--ink3); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,0.45);
+      padding: 2rem clamp(1.5rem, 5vw, 4rem);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    footer p { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; }
+    footer .foot-brand { font-family: var(--serif); font-size: 1rem; color: var(--forest4); }
+
+    /* ─── PRINT ─── */
+    @media print {
+      nav, .features, .how-bg, .roles-grid-section, .callout-section, footer,
+      .divider, .action-row, .print-btn, .analyse-btn, .nav-cta { display: none !important; }
+      .tool-section { padding: 0; }
+      .tool-wrap { box-shadow: none; border: none; border-radius: 0; }
+      .tool-header, .report-banner { background: var(--forest) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body { background: #fff; }
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2.1rem; }
+      .tool-body { padding: 1.25rem; }
+      .report-banner { margin: -1.25rem -1.25rem 1.5rem; padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">AI Career Diagnostic <span>T&amp;P Tool</span></div>
+  <a href="javascript:void(0)" onclick="document.getElementById('tool').scrollIntoView({behavior:'smooth'})" class="nav-cta">Try the Tool</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Free Tool for Engineering Students</div>
+    <h1>Does your resume match<br>an <em>AI career?</em></h1>
+    <p class="hero-desc">
+      Upload your resume and get an instant diagnostic — which entry-level AI roles you're eligible for, what's missing, and exactly what to do about it.
+    </p>
+    <div class="hero-pills">
+      <span class="hero-pill">CS / IT</span>
+      <span class="hero-pill">ECE / EEE</span>
+      <span class="hero-pill">Mech / Civil</span>
+      <span class="hero-pill">MBA</span>
+      <span class="hero-pill">All branches</span>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <h3>Instant role match</h3>
+      <p>Get matched to 5–6 entry-level AI roles with an eligibility score — High, Medium, or Low.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <h3>Gap analysis</h3>
+      <p>Know precisely which skills are holding you back — with honest, specific explanations.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <h3>Remedies & courses</h3>
+      <p>Named courses, certifications, platforms and projects — not generic advice.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <h3>Printable report</h3>
+      <p>Save or print the full report as PDF to share with your placement officer or mentor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how-bg">
+  <div class="section-inner">
+    <span class="section-label">How it works</span>
+    <h2 class="section-title" style="color:#fff;">Three steps to your<br><em style="color:var(--forest3)">AI career report</em></h2>
+    <div class="steps" style="margin-top:2rem;">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h4>Upload or paste your resume</h4>
+          <p>Paste your resume text directly or upload a TXT / DOCX file. The AI reads your education, skills, projects, internships, and certifications.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h4>Select your branch</h4>
+          <p>Choose your engineering branch so the analysis is tailored — a Mechanical student and a CS student get very different role suggestions.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h4>Read your diagnostic report</h4>
+          <p>Instantly get your AI readiness score, matched roles with eligibility %, skill gaps identified from your resume, and step-by-step remedies to close them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES PREVIEW -->
+<section class="section roles-grid-section" style="background: var(--cream2);">
+  <div class="section-inner">
+    <span class="section-label">Sample roles covered</span>
+    <h2 class="section-title">Entry-level AI roles<br>across all branches</h2>
+    <div class="roles-grid">
+      <div class="role-preview"><div class="rp-branch">CS / IT</div><h4>ML Engineer</h4><p>Build and train machine learning models at scale.</p></div>
+      <div class="role-preview"><div class="rp-branch">CS / IT</div><h4>Data Scientist</h4><p>Analyse data and surface predictive insights for business.</p></div>
+      <div class="role-preview"><div class="rp-branch">CS / IT</div><h4>MLOps Engineer</h4><p>Deploy, monitor and maintain AI systems in production.</p></div>
+      <div class="role-preview"><div class="rp-branch">ECE / EEE</div><h4>Computer Vision Engineer</h4><p>Build image and video AI systems for real-world applications.</p></div>
+      <div class="role-preview"><div class="rp-branch">ECE / EEE</div><h4>Embedded AI Engineer</h4><p>Deploy AI on edge devices and microcontrollers.</p></div>
+      <div class="role-preview"><div class="rp-branch">Mech / Civil</div><h4>Digital Twin Engineer</h4><p>Simulate physical systems using AI and sensor data.</p></div>
+      <div class="role-preview"><div class="rp-branch">Mech / Civil</div><h4>Predictive Maintenance</h4><p>Use AI to detect anomalies in industrial equipment.</p></div>
+      <div class="role-preview"><div class="rp-branch">MBA</div><h4>AI Product Manager</h4><p>Define and drive the roadmap for AI-powered products.</p></div>
+      <div class="role-preview"><div class="rp-branch">All branches</div><h4>AI Trainer / Annotator</h4><p>Label data and evaluate AI model outputs for quality.</p></div>
+      <div class="role-preview"><div class="rp-branch">All branches</div><h4>Prompt Engineer</h4><p>Design effective prompts and interactions for LLM-powered products.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CALLOUT -->
+<section class="callout-section">
+  <div class="callout-inner">
+    <blockquote>"The AI job market is not just for CS students. Domain expertise from ECE, Mechanical, or even MBA gives you an edge — if you know how to position it."</blockquote>
+    <cite>— AI Career Diagnostic, Training &amp; Placement Tool</cite>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider" style="padding-top:1px;background:var(--cream);"><span>Try the tool below</span></div>
+
+<!-- ─── TOOL ─── -->
+<section class="tool-section" id="tool">
+  <div class="tool-wrap">
+
+    <!-- Tool header -->
+    <div class="tool-header">
+      <div class="tool-header-left">
+        <h2>Resume Diagnostic</h2>
+        <p>Paste resume · Select branch · Get report</p>
+      </div>
+      <div class="tool-live-badge">Live AI</div>
+    </div>
+
+    <!-- Tool body -->
+    <div class="tool-body">
+
+      <!-- INPUT VIEW -->
+      <div id="input-view">
+        <div id="error-box" class="error-box"></div>
+
+        <div class="field-label">Step 1 — Resume</div>
+        <div class="upload-zone" id="drop-zone">
+          <input type="file" id="file-input" accept=".pdf,.txt,.docx,.doc">          <div class="upload-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <h3 id="drop-label">Drop resume here</h3>
+          <p>PDF, DOCX or TXT supported</p>
+        </div>
+
+        <div id="paste-section">
+        <div class="or-divider">or paste text</div>
+        <textarea class="paste-area" id="resume-text"
+          placeholder="Paste resume content here — education, skills, projects, internships, certifications, CGPA, achievements, work experience..."></textarea>
+        </div>
+
+        <div class="field-label">Step 2 — Branch</div>
+        <div class="branch-row">
+          <button class="branch-btn" data-b="CS / IT">CS / IT</button>
+          <button class="branch-btn" data-b="ECE / EEE">ECE / EEE</button>
+          <button class="branch-btn" data-b="Mechanical / Civil">Mech / Civil</button>
+          <button class="branch-btn" data-b="MBA / Management">MBA</button>
+          <button class="branch-btn" data-b="Other Engineering">Other</button>
+        </div>
+
+        <div class="field-label">Step 3 — Generate</div>
+        <button class="analyse-btn" onclick="runAnalysis()">Generate My AI Career Report</button>
+      </div>
+
+      <!-- LOADING VIEW -->
+      <div id="loading-view" style="display:none;">
+        <div class="loading">
+          <div class="spinner"></div>
+          <div class="loading-msg" id="loading-msg">Reading resume...</div>
+          <div class="loading-sub">Takes about 20–30 seconds</div>
+        </div>
+      </div>
+
+      <!-- REPORT VIEW -->
+      <div id="report-view" style="display:none;"></div>
+
+    </div><!-- /tool-body -->
+  </div><!-- /tool-wrap -->
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-brand">AI Career Diagnostic</div>
+  <p>Free tool for engineering students in India &nbsp;·&nbsp; Powered by Claude AI</p>
+  <p>Results are for guidance only — not a guarantee of placement.</p>
+</footer>
+
+<script>
+  let selectedBranch = '';
+
+  document.querySelectorAll('.branch-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.branch-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedBranch = btn.dataset.b;
+    });
+  });
+
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('drag');
+    if (e.dataTransfer.files[0]) readFile(e.dataTransfer.files[0]);
+  });
+  fileInput.addEventListener('change', () => { if (fileInput.files[0]) readFile(fileInput.files[0]); });
+
+  function readFile(file) {
+    const label = document.getElementById('drop-label');
+    const textarea = document.getElementById('resume-text');
+    const name = file.name.toLowerCase();
+    const isPdf  = name.endsWith('.pdf');
+    const isDocx = name.endsWith('.docx') || name.endsWith('.doc');
+
+    label.textContent = 'Reading ' + file.name + '…';
+    dropZone.classList.remove('loaded');
+
+    if (isPdf) {
+      const reader = new FileReader();
+      reader.onload = async e => {
+        try {
+          const typedArray = new Uint8Array(e.target.result);
+          const pdf = await pdfjsLib.getDocument({ data: typedArray }).promise;
+          let fullText = '';
+          for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const content = await page.getTextContent();
+            const pageText = content.items.map(item => item.str).join(' ');
+            fullText += pageText + '\n';
+          }
+          fullText = fullText.trim();
+          if (fullText.length < 50) {
+            showError('Could not extract text from this PDF. It may be a scanned image — please try a DOCX version instead.');
+            label.textContent = 'Drop resume here';
+            return;
+          }
+          textarea.value = fullText.slice(0, 5000);
+          label.textContent = '\u2713 ' + file.name + ' — extracted ' + pdf.numPages + ' page' + (pdf.numPages > 1 ? 's' : '');
+          dropZone.classList.add('loaded');
+          document.getElementById('paste-section').style.display = 'none';
+        } catch(err) {
+          showError('Could not read this PDF. Please try uploading a DOCX instead.');
+          label.textContent = 'Drop resume here';
+          console.error(err);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+
+    } else if (isDocx) {
+      const reader = new FileReader();
+      reader.onload = async e => {
+        try {
+          const result = await mammoth.extractRawText({ arrayBuffer: e.target.result });
+          const text = result.value.trim();
+          if (text.length < 50) {
+            showError('Could not read this DOCX. Please try a different file or paste the text below.');
+            label.textContent = 'Drop resume here';
+            return;
+          }
+          textarea.value = text.slice(0, 5000);
+          label.textContent = '\u2713 ' + file.name + ' — text extracted';
+          dropZone.classList.add('loaded');
+          document.getElementById('paste-section').style.display = 'none';
+        } catch(err) {
+          showError('Could not read this DOCX. Please paste your resume text below.');
+          label.textContent = 'Drop resume here';
+        }
+      };
+      reader.readAsArrayBuffer(file);
+
+    } else {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const text = e.target.result.trim();
+        if (text.length < 50) {
+          showError('File appears empty. Please paste your resume text below.');
+          label.textContent = 'Drop resume here';
+          return;
+        }
+        textarea.value = text.slice(0, 5000);
+        label.textContent = '\u2713 ' + file.name;
+        dropZone.classList.add('loaded');
+        document.getElementById('paste-section').style.display = 'none';
+      };
+      reader.readAsText(file);
+    }
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('error-box');
+    el.textContent = msg; el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 5000);
+  }
+
+  const loadingMsgs = [
+    'Reading your resume\u2026',
+    'Detecting skills and experience\u2026',
+    'Matching AI career roles\u2026',
+    'Computing skill gaps\u2026',
+    'Generating course remedies\u2026',
+    'Finalising your report\u2026'
+  ];
+
+  async function runAnalysis() {
+    const resumeText = document.getElementById('resume-text').value.trim();
+    if (!resumeText || resumeText.length < 80) {
+      showError('Please paste your resume text or upload a file first.'); return;
+    }
+
+    document.getElementById('input-view').style.display = 'none';
+    document.getElementById('loading-view').style.display = 'block';
+    document.getElementById('tool').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    let msgIdx = 0;
+    const msgEl = document.getElementById('loading-msg');
+    const msgTimer = setInterval(() => {
+      msgIdx = (msgIdx + 1) % loadingMsgs.length;
+      msgEl.textContent = loadingMsgs[msgIdx];
+    }, 2200);
+
+    const branchNote = selectedBranch ? `The student's branch is: ${selectedBranch}.` : '';
+
+    const prompt = `You are an expert AI career diagnostic engine for engineering college students in India seeking entry-level jobs in the AI/ML field.
+
+Analyse the resume below and produce a structured JSON report. ${branchNote}
+
+Resume:
+"""
+${resumeText.slice(0, 4500)}
+"""
+
+Return ONLY valid JSON (no markdown, no explanation). Structure:
+
+{
+  "studentName": "Name from resume or 'Student'",
+  "branch": "Branch detected from resume",
+  "cgpa": "CGPA if found, else null",
+  "overallScore": 58,
+  "aiReadinessLevel": "Emerging",
+  "summary": "2-3 sentence honest assessment of AI career readiness. Be direct and constructive.",
+  "strengths": ["Specific strength 1", "Specific strength 2", "Specific strength 3"],
+  "roles": [
+    {
+      "title": "Role title",
+      "eligibility": "High",
+      "matchPercent": 78,
+      "whyEligible": "One sentence reason",
+      "sampleCompanies": "TCS, Infosys, Wipro",
+      "presentSkills": ["Python", "SQL"],
+      "missingSkills": ["Tableau"]
+    }
+  ],
+  "gaps": [
+    { "area": "Gap area", "description": "Clear honest explanation specific to this student" }
+  ],
+  "remedies": [
+    { "type": "Course", "title": "Specific resource name", "description": "How it helps this student specifically" }
+  ]
+}
+
+Rules:
+- 5-6 roles: realistic mix of High/Medium/Low eligibility, all entry-level AI roles for India
+- 3-4 gaps: specific to this student's actual profile gaps
+- 5-6 remedies: mix of Course/Certification/Project/Hackathon/Platform — name real resources (e.g. "Andrew Ng Machine Learning Specialization", "Kaggle Learn", "NASSCOM FutureSkills Prime", "Google AI Essentials")
+- overallScore: integer 0-100
+- aiReadinessLevel: exactly one of: Emerging / Developing / Ready / Advanced
+- Be specific to the actual resume — no generic boilerplate`;
+
+    try {
+
+      clearInterval(msgTimer);
+
+      // Send as GET request to avoid Blogger CSP blocking POST
+      let report;
+      try {
+        const payload = encodeURIComponent(JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        }));
+
+        const realRes = await fetch('https://script.google.com/macros/s/AKfycbxK9lzEGhBvTO4yY7wUIEKRHvBZJxJId_2EuTJoTL6k-qJ47FlzH6DO88PoYYmliqAhng/exec?payload=' + payload, {
+          method: 'GET',
+          redirect: 'follow'
+        });
+
+        const text = await realRes.text();
+        const cleaned = text.replace(/```json|```/g, '').trim();
+        try { report = JSON.parse(cleaned); }
+        catch {
+          const m = cleaned.match(/\{[\s\S]+\}/);
+          if (!m) throw new Error('No JSON found');
+          report = JSON.parse(m[0]);
+        }
+      } catch(proxyErr) {
+        throw new Error('Proxy error: ' + proxyErr.message);
+      }
+
+      document.getElementById('loading-view').style.display = 'none';
+      renderReport(report);
+      document.getElementById('tool').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    } catch(err) {
+      clearInterval(msgTimer);
+      document.getElementById('loading-view').style.display = 'none';
+      document.getElementById('input-view').style.display = 'block';
+      showError('Analysis failed. Please ensure you have an internet connection and try again in a moment.');
+      console.error(err);
+    }
+  }
+
+  function badgeClass(e) { return e === 'High' ? 'badge-high' : e === 'Medium' ? 'badge-med' : 'badge-low'; }
+  function levelColor(l) {
+    return { Emerging: '#c0533a', Developing: '#c9933a', Ready: '#2d6a4f', Advanced: '#1b5e20' }[l] || '#2d6a4f';
+  }
+
+  function renderReport(r) {
+    const rawScore = r.overallScore || r.overall_score || r.score || 0;
+    const score = Math.min(100, Math.max(0, parseInt(String(rawScore)) || 0));
+    const lc = levelColor(r.aiReadinessLevel);
+    const cgpaLine = r.cgpa ? ` &nbsp;&middot;&nbsp; CGPA ${r.cgpa}` : '';
+    const date = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    const strengthsHTML = (r.strengths || []).map(s =>
+      `<div class="strength-item"><div class="strength-dot"></div><span>${s}</span></div>`).join('');
+
+    const rolesHTML = (r.roles || []).map(role => `
+      <div class="role-card">
+        <div class="role-badge ${badgeClass(role.eligibility)}">
+          <div class="badge-pct">${role.matchPercent || '?'}%</div>
+          <div class="badge-label">${role.eligibility}</div>
+        </div>
+        <div class="role-info">
+          <div class="role-title">${role.title}</div>
+          <div class="role-company">${role.sampleCompanies || ''}</div>
+          <div class="role-why">${role.whyEligible || ''}</div>
+          <div class="role-tags">
+            ${(role.presentSkills || []).map(s => `<span class="tag tag-ok">${s}</span>`).join('')}
+            ${(role.missingSkills || []).map(s => `<span class="tag tag-gap">Gap: ${s}</span>`).join('')}
+          </div>
+        </div>
+      </div>`).join('');
+
+    const gapsHTML = (r.gaps || []).map(g => `
+      <div class="gap-card">
+        <div class="gap-title">${g.area}</div>
+        <div class="gap-desc">${g.description}</div>
+      </div>`).join('');
+
+    const remediesHTML = (r.remedies || []).map(rem => `
+      <div class="remedy-card">
+        <div class="remedy-pill">${rem.type}</div>
+        <div class="remedy-title">${rem.title}</div>
+        <div class="remedy-desc">${rem.description}</div>
+      </div>`).join('');
+
+    document.getElementById('report-view').innerHTML = `
+      <div class="report">
+        <div class="report-banner">
+          <div class="rb-row">
+            <div>
+              <div class="student-name">${r.studentName || 'Student'}</div>
+              <div class="student-meta">${r.branch || ''}${cgpaLine} &nbsp;&middot;&nbsp; ${date}</div>
+            </div>
+            <button class="print-btn" onclick="window.print()">Print / PDF</button>
+          </div>
+          <div class="score-chips">
+            <div class="score-chip">
+              <div class="chip-val">${score}<span class="chip-unit">/100</span></div>
+              <div class="chip-lbl">AI Readiness Score</div>
+            </div>
+            <div class="score-chip">
+              <div class="chip-val" style="color:${lc}">${r.aiReadinessLevel || '\u2014'}</div>
+              <div class="chip-lbl">Readiness Level</div>
+            </div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width:${score}%"></div>
+          </div>
+        </div>
+
+        <div class="rpt-section">
+          <div class="rpt-label">Diagnostic summary</div>
+          <div class="summary-box">${r.summary || ''}</div>
+        </div>
+
+        <div class="rpt-section">
+          <div class="rpt-label">Strengths identified</div>
+          <div class="strength-list">${strengthsHTML}</div>
+        </div>
+
+        <div class="rpt-section">
+          <div class="rpt-label">Role eligibility &mdash; entry-level AI</div>
+          ${rolesHTML}
+        </div>
+
+        <div class="rpt-section">
+          <div class="rpt-label">Skill gaps</div>
+          ${gapsHTML}
+        </div>
+
+        <div class="rpt-section">
+          <div class="rpt-label">Recommended remedies</div>
+          ${remediesHTML}
+        </div>
+
+        <div class="action-row">
+          <button class="action-btn btn-ghost" onclick="resetApp()">\u21BA Analyse another resume</button>
+          <button class="action-btn btn-accent" onclick="window.print()">Print / Save PDF</button>
+        </div>
+        <div class="report-disclaimer">AI-generated for career guidance only &nbsp;&middot;&nbsp; Not a guarantee of placement<br>Actual hiring depends on company criteria, college tier, CGPA &amp; interview performance.</div>
+      </div>`;
+
+    document.getElementById('report-view').style.display = 'block';
+    setTimeout(() => {
+      const fill = document.querySelector('.progress-fill');
+      if (fill) fill.style.width = score + '%';
+    }, 100);
+  }
+
+  function resetApp() {
+    document.getElementById('report-view').style.display = 'none';
+    document.getElementById('report-view').innerHTML = '';
+    document.getElementById('input-view').style.display = 'block';
+    document.getElementById('resume-text').value = '';
+    document.getElementById('file-input').value = '';
+    document.getElementById('drop-label').textContent = 'Drop resume here';
+    dropZone.classList.remove('loaded');
+    document.getElementById('paste-section').style.display = '';
+    document.querySelectorAll('.branch-btn').forEach(b => b.classList.remove('active'));
+    selectedBranch = '';
+    document.getElementById('tool').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+</body>
+</html>
